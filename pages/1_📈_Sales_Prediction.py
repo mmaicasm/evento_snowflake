@@ -44,8 +44,8 @@ hide_table_row_index = """
 st.markdown(hide_table_row_index, unsafe_allow_html = True)
 
 # Barra lateral
-st.sidebar.image(image_path_1, width = 75)
-st.sidebar.image(qr_path, width = 75)
+st.sidebar.image(image_path_1, width = 150)
+st.sidebar.image(qr_path, width = 150)
 
 # Secciones de la App (Containers)
 st.title("Predicción de ventas con Machine Learning")

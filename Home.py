@@ -17,7 +17,9 @@ st.set_page_config(
 )
 
 # Imagenes
-image_path = "https://raw.githubusercontent.com/mmaicasm/evento_snowflake/main/streamlit_src/snowflake-logo.jpg"
+image_path_1 = "https://raw.githubusercontent.com/mmaicasm/evento_snowflake/main/streamlit_src/snowflake-logo.jpg"
+image_path_2 = "https://raw.githubusercontent.com/mmaicasm/evento_snowflake/main/streamlit_src/snowflake-logo.jpg"
+qr_path = "https://raw.githubusercontent.com/mmaicasm/evento_snowflake/main/streamlit_src/app-qr-code.png"
 
 # Ocultar índices de tablas
 hide_table_row_index = """
@@ -28,9 +30,14 @@ hide_table_row_index = """
   """
 st.markdown(hide_table_row_index, unsafe_allow_html = True)
 
+# Barra lateral
+st.sidebar.image(image_path_1, width = 75)
+st.sidebar.image(qr_path, width = 75)
+
 # Secciones de la App (Containers)
 st.title('Home')
 st.subheader('Conexión a Snowflake mediante Snowpark')
+st.image(image_path_2, width = 150)
 
 # Inicializar estados
 if 'logged' not in st.session_state:

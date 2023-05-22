@@ -28,12 +28,17 @@ st.set_page_config(
 # Imagenes
 image_path_1 = "https://raw.githubusercontent.com/mmaicasm/evento_snowflake/main/streamlit_src/snowflake-logo.png"
 image_path_2 = "https://raw.githubusercontent.com/mmaicasm/evento_snowflake/main/streamlit_src/openai-logo.png"
+qr_path = "https://raw.githubusercontent.com/mmaicasm/evento_snowflake/main/streamlit_src/app-qr-code.png"
 
 # Variables
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 MAX_INPUTS = 3
 chat_history = []
 RESET = True
+
+# Barra lateral
+st.sidebar.image(image_path_1, width = 75)
+st.sidebar.image(qr_path, width = 75)
 
 # Secciones de la App (Containers)
 st.title("SnowChat")
@@ -43,7 +48,7 @@ messages_container = st.container()
 # Cabecera
 with cabecera:
   cabecera.write("SnowChat es un chatbot que utiliza Chat-GPT para ayudarte con tus consultas en Snowflake.")
-  cabecera.image([image_path_1,image_path_2], width = 150)
+  cabecera.image(image_path_2, width = 150)
   cabecera.write('---')
   
 # Check de login

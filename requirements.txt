@@ -1,0 +1,10 @@
+streamlit==1.22.0
+snowflake-snowpark-python==0.7.0
+pyarrow==10.0.1
+pandas==1.4.2
+numpy==1.21.5
+unstructured==0.6.6
+tiktoken==0.4.0
+faiss-cpu==1.7.4
+langchain==0.0.141
+openai==0.27.6

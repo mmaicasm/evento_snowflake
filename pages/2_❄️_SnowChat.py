@@ -38,8 +38,10 @@ chat_history = []
 RESET = True
 
 # Barra lateral
-st.sidebar.image(image_path_1, width = 150)
-st.sidebar.image(qr_path, width = 150)
+#st.sidebar.image(image_path_1, width = 150)
+#st.sidebar.image(qr_path, width = 150)
+st.sidebar.image(image_path_1)
+st.sidebar.image(qr_path)
 
 # Secciones de la App (Containers)
 st.title("SnowChat")
@@ -49,7 +51,8 @@ messages_container = st.container()
 # Cabecera
 with cabecera:
   cabecera.write("SnowChat es un chatbot que utiliza Chat-GPT para ayudarte con tus consultas en Snowflake.")
-  cabecera.image([image_path_2,image_path_3], width = 150)
+  #cabecera.image([image_path_2,image_path_3], width = 150)
+  cabecera.image([image_path_2,image_path_3])
   cabecera.write('---')
   
 # Check de login

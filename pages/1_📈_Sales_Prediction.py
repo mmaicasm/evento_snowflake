@@ -48,12 +48,16 @@ st.sidebar.image(image_path_1, use_column_width = True)
 st.sidebar.image(qr_path, use_column_width = True)
 
 # Secciones de la App (Containers)
-icol1, icol2, icol3 = st.columns(3)
+icol1, icol2, icol3, icol4, icol5 = st.columns(5)
 with icol1:
   st.write(' ')
 with icol2:
-  st.image(image_path_2, use_column_width = True)
+  st.write(' ')
 with icol3:
+  st.image(image_path_2, use_column_width = True)
+with icol4:
+  st.write(' ')
+with icol5:
   st.write(' ')
 st.title("Predicción de ventas con Machine Learning")
 cabecera = st.container()
@@ -65,7 +69,6 @@ features_and_output = st.container()
 with cabecera:
   cabecera.write("""Esta app permite visualizar la previsión de venta mes a mes filtrando en base a ciertas variables ajustables mediante widgets. 
     Los modelos fueron entrenados con datos anonimizados de una empresa del sector Retail.""")
-  #cabecera.image(image_path_2, width = 150)
   cabecera.write('---')
   
 # Check de conexión

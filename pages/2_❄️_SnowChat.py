@@ -42,14 +42,16 @@ st.sidebar.image(image_path_1, use_column_width = True)
 st.sidebar.image(qr_path, use_column_width = True)
 
 # Secciones de la App (Containers)
-icol1, icol2, icol3, icol4 = st.columns(4)
+icol1, icol2, icol3, icol4, icol5 = st.columns(5)
 with icol1:
   st.write(' ')
 with icol2:
   st.image(image_path_2, use_column_width = True)
 with icol3:
-  st.image(image_path_3, use_column_width = True)
+  st.write(' ')
 with icol4:
+  st.image(image_path_3, use_column_width = True)
+with icol5:
   st.write(' ')
 st.title("SnowChat")
 cabecera = st.container()
@@ -58,7 +60,6 @@ messages_container = st.container()
 # Cabecera
 with cabecera:
   cabecera.write("SnowChat es un chatbot que utiliza Chat-GPT para ayudarte con tus consultas en Snowflake.")
-  #cabecera.image([image_path_2,image_path_3], width = 150)
   cabecera.write('---')
   
 # Check de login

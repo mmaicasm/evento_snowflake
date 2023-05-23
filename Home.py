@@ -35,16 +35,19 @@ st.sidebar.image(image_path_1, use_column_width = True)
 st.sidebar.image(qr_path, use_column_width = True)
 
 # Secciones de la App (Containers)
-icol1, icol2, icol3 = st.columns(3)
+icol1, icol2, icol3, icol4, icol5 = st.columns(5)
 with icol1:
   st.write(' ')
 with icol2:
-  st.image(image_path_2, use_column_width = True)
+  st.write(' ')
 with icol3:
+  st.image(image_path_2, use_column_width = True)
+with icol4:
+  st.write(' ')
+with icol5:
   st.write(' ')
 st.title('Home')
 st.subheader('Conexión a Snowflake mediante Snowpark')
-#st.image(image_path_2, width = 150)
 
 # Inicializar estados
 if 'logged' not in st.session_state:

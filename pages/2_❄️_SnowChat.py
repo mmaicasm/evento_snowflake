@@ -79,6 +79,11 @@ if st.session_state['logged'] == True:
     return get_chain(vectorstore)
 
   chain = load_chain()
+  
+  # UI
+  with open("ui/styles.md", "r") as styles_file:
+    styles_content = styles_file.read()
+  st.write(styles_content, unsafe_allow_html = True)
 
   if 'generated' not in st.session_state:
     st.session_state['generated'] = ["Hola! Soy tu asistente virtual especializado en consultas SQL. Dime que necesitas y ya me aclararé yo con Snowflake ❄️🔍"]

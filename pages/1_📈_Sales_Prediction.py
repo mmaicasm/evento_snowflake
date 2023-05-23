@@ -7,6 +7,7 @@ from snowflake.snowpark.functions import udf,sum,col,array_construct,month,year,
 # Librerias necesarias
 import numpy as np
 import pandas as pd
+import altair as alt
 # Funciones necesarias
 from utils import snowpark
 
@@ -14,7 +15,7 @@ from utils import snowpark
 st.set_page_config(
   page_title = "Sales Prediction App",
   page_icon = "📈",
-  layout = "wide",
+  layout = "centered",
   initial_sidebar_state = "auto",
   menu_items = {
     "Get Help": "https://www.hiberus.com/tecnologia/snowflake-ld",
@@ -28,11 +29,9 @@ image_path_1 = "https://raw.githubusercontent.com/mmaicasm/evento_snowflake/main
 image_path_2 = "https://raw.githubusercontent.com/mmaicasm/evento_snowflake/main/streamlit_src/snowflake-logo.png"
 qr_path = "https://raw.githubusercontent.com/mmaicasm/evento_snowflake/main/streamlit_src/app-qr-code.png"
 
-# Variables
-lista_modelos = ["Modelo_1", "Modelo_2"]
-lista_paises = ["Alemania","Austria","Bulgaria","Bélgica","Dinamarca","España","Estados Unidos","Finlandia","Francia","Grecia","Holanda","Irlanda","Italia","México","Polonia","Portugal","Reino Unido","Rumania","Rusia","Suecia"]
-lista_generos = ["Unisex", "Niño", "Niña"]
-lista_productos = []
+# Variables fijas
+lista_paises = ["Alemania","Holanda","Italia"]
+lista_productos = ["Pantalón largo", "Pantalón corto"]
 
 # Ocultar índices de tablas
 hide_table_row_index = """
@@ -59,7 +58,7 @@ with icol4:
   st.write(' ')
 with icol5:
   st.write(' ')
-st.title("Predicción de ventas con Machine Learning")
+st.title("Predicción de ventas con ML")
 cabecera = st.container()
 col1, _, col2 = st.columns([4, 1, 4])
 dataset = st.container()
@@ -70,60 +69,48 @@ with cabecera:
   cabecera.write("""Esta app permite visualizar la previsión de venta mes a mes filtrando en base a ciertas variables ajustables mediante widgets. 
     Los modelos fueron entrenados con datos anonimizados de una empresa del sector Retail.""")
   cabecera.write('---')
-  
+
 # Check de conexión
 if st.session_state['logged'] == True:
   session = st.session_state['session']
   
+  # Función para dibujar el gráfico
+  def draw(_session, prediction):
+    df = snowpark.load_data(_session, prediction)
+
+    months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+
+    bars = alt.Chart(df).mark_bar().encode(
+      x = alt.X("MES", sort = months, title = 'Mes'),
+      y = alt.Y("CANTIDAD_PEDIDA", title = "Unidades vendidas"),
+      color = alt.Color("TIPO_PRENDA", legend = alt.Legend(orient = "top", title = ""), title = 'Producto'),
+      opacity = alt.condition(alt.datum.YEAR == 2022 and alt.datum.MES == "Jun", alt.value(1), alt.value(0.5)),
+    )
+    chart = alt.layer(bars).resolve_scale(y = "independent")
+    chart = chart.configure_view(strokeWidth=0).configure_axisY(domain=False).configure_axis(labelColor="#808495", tickColor="#e6eaf1", gridColor="#e6eaf1", domainColor="#e6eaf1", titleFontWeight=600, titlePadding=10, labelPadding=5, labelFontSize=14).configure_range(category=["#FFE08E", "#03C0F2", "#FFAAAB", "#995EFF"])
+    
+    try:
+      st.altair_chart(chart, use_container_width = True)
+    except Exception as e:
+      st.error(e)
+      st.stop()
+  
   # Variables dinámicas
   prediction = []
-  table = ''
-  
-  # Función para cargar los distintos productos
-  lista_productos = session.sql('SELECT DISTINCT TIPO_PRENDA AS PRODUCTO FROM EVENTO_SNOWFLAKE.PUBLIC_DATA.DATOS_DEMO ORDER BY TIPO_PRENDA').to_pandas()['PRODUCTO'].to_list()
-  
+
   with col1:
-    modelo = st.selectbox(label = 'Modelo', options = lista_modelos, index = 0, help = None)
-    var_1 = st.multiselect(label = 'Pais', options = lista_paises, default = None, max_selections = None, help = None)
-    prediction.append(modelo)
-    prediction.append(var_1)
-  
+    var_1 = st.selectbox(label = 'Pais', options = lista_paises, index = 0, help = None)
+
   with col2:
-    
-    var_2 = st.selectbox(label = 'Producto', options = lista_productos, index = 0, help = None)
-    var_3 = st.radio(label = 'Género', options = lista_generos, index = 0, help = None)
-    prediction.append(var_2)
-    prediction.append(var_3)
-    
-  # Función para cargar los datos según los widgets
-  @st.cache_data(show_spinner = False)
-  def load_data(_session, prediction):
-    
-    if prediction[0] == 'X':
-      table = 'xxxxxxxx'
-    elif prediction[0] == 'X':
-      table = 'xxxxxxxx'
-    elif prediction[0] == 'X':
-      table = 'xxxxxxxx'
-    else:
-      st.error('Modelo no reconococido')
-      
-    if prediction[3] != 'Unisex':
-      filtro_gen = f' AND GENERO = {prediction[3]}'
-    else:
-      filtro_gen = ''
-    
-    df = _session.sql(f'SELECT XXXXX FROM {table} WHERE PAIS in ({prediction[1]}) AND TIPO_PRENDA = {prediction[2]} {filtro_gen}').to_pandas()
-    df['DATE'] = pd.to_datetime(df['DATE'])
-    return df
-  
+    var_2 = st.multiselect(label = 'Producto', options = lista_productos, default = None, max_selections = None, help = None)
+
+  prediction.append(var_1)
+  prediction.append(var_2)
+
   # Gráfico
   with dataset:
-    dataset.header("Predicted revenue")
-    @st.cache_data(show_spinner = False)
-    def predict(prediction):
-      
-      df = session.sql(f"SELECT xxx=").to_pandas()
-        
+    if prediction[0] and prediction[1]:
+      draw(session, prediction)
+
 else:
   st.error("Tienes que loguearte en Snowflake antes de utilizar esta función")

@@ -63,7 +63,7 @@ with st.form(key = "login"):
   password = st.text_input(type = 'password', label = 'Contraseña')
   
   login = st.form_submit_button("Conectar")
-  guest = st.form_submit_button("Acceder como invitado")
+  guest = st.form_submit_button("Acceder como invitado", disabled = True)
   
   if login or guest:
     if guest:

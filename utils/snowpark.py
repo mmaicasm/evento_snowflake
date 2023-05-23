@@ -2,7 +2,6 @@
 import streamlit as st
 # Snowpark
 from snowflake.snowpark.session import Session
-from snowflake.snowpark import DataFrame
 # Librerias necesarias
 import pandas as pd
 import random as ra
@@ -20,7 +19,8 @@ guest_connection_parameters = {
   "user": st.secrets["guest_user"],
   "password": st.secrets["guest_password"],
   "role": "STREAMLIT_READ",
-  "warehouse": "STREAMLIT_WH"
+  "warehouse": "STREAMLIT_WH",
+  "client_session_keep_alive": True
 }
 
 # Funciones con memoria
@@ -80,7 +80,33 @@ def query_snowflake(_session, sql) -> pd.DataFrame:
     df = _session.sql(sql).to_pandas()
       
   except Exception as e:
+    if e.error_code == '1304':
+      _session.close()
+      st.warning('La sesión ha caducado, por favor recarga la app')
+    else:
+      st.error(e)
+    st.stop()
+
+  return df
+
+# Función para cargar los datos según los widgets
+@st.cache_data(show_spinner = False)
+def load_data(_session, prediction) -> pd.DataFrame:
+  
+  table = 'EVENTO_SNOWFLAKE.PUBLIC_DATA.TEST_PREVISION'
+  
+  if len(prediction[1]) > 1:
+    filtro = f"PAIS = '{prediction[0]}' AND TIPO_PRENDA in {tuple(prediction[1])}"
+  else:
+    filtro = f"PAIS = '{prediction[0]}' AND TIPO_PRENDA = '{prediction[1][0]}'"
+  order = 'ORDER BY YEAR, MONTH, TIPO_PRENDA, GENERO'
+  
+  query = f'SELECT YEAR, MONTH, MES, TIPO_PRENDA, GENERO, CANTIDAD_PEDIDA FROM {table} WHERE {filtro} {order}'
+    
+  try:
+    df = _session.sql(query).to_pandas()
+  except Exception as e:
     st.error(e)
     return e
-
+  
   return df

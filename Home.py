@@ -7,7 +7,7 @@ from utils import snowpark
 st.set_page_config(
   page_title = "Home",
   page_icon = "🏠",
-  layout = "wide",
+  layout = "centered",
   initial_sidebar_state = "expanded",
   menu_items = {
     'Get Help': 'https://www.hiberus.com/tecnologia/snowflake-ld',
@@ -76,8 +76,8 @@ with st.form(key = "login"):
       st.snow()
       
       # Mostrar parámetros de la sesión
-      st.write('Parámetros de la sesión:')
-      st.table(session.sql('select current_user(), current_role()').collect())
+      #st.write('Parámetros de la sesión:')
+      #st.table(session.sql('select current_user(), current_role()').collect())
   
     elif login:
       if user and password:
@@ -90,8 +90,8 @@ with st.form(key = "login"):
         st.snow()
         
         # Mostrar parámetros de la sesión
-        st.write('Parámetros de la sesión:')
-        st.table(session.sql('select current_user(), current_role()').collect())
+        #st.write('Parámetros de la sesión:')
+        #st.table(session.sql('select current_user(), current_role()').collect())
         
       else:
         st.warning("Introduce tu usuario y contraseña")

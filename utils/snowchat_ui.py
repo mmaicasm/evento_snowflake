@@ -88,7 +88,7 @@ def is_sql_query(text: str) -> bool:
   keywords = [
     "SELECT", "FROM", "WHERE", "UPDATE", "INSERT", "DELETE", "JOIN",
     "GROUP BY", "ORDER BY", "HAVING", "LIMIT", "OFFSET", "UNION", "CREATE",
-    "ALTER", "DROP", "TRUNCATE", "EXPLAIN", "WITH"
+    "ALTER", "DROP", "TRUNCATE", "EXPLAIN", "WITH", "AS"
   ]
 
   # Create a single regular expression pattern to search for all keywords

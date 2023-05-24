@@ -95,3 +95,14 @@ with st.form(key = "login"):
         
       else:
         st.warning("Introduce tu usuario y contraseña")
+
+if 'logged' in st.session_state and 'session' in st.session_state:
+  disconnect = st.button(label = 'Cerrar sesión')
+  
+  if disconnect:
+    st.cache_data.clear()
+    st.cache_resource.clear()
+    st.session_state['session'].close()
+    for key in st.session_state.keys():
+      del st.session_state[key]
+    st.warning('Sesión cerrada')

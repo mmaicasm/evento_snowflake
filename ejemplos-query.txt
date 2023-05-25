@@ -1,5 +1,0 @@
-Necesito las unidades vendidas en 2021 en Irlanda
-
-Necesito las unidades vendidas en 2021 agrupadas por pais, pero el pais damelo con nombre completo
-
-Necesito las unidades vendidas entre Enero y Junio de 2022 agrupadas por prenda, y dame solo las 10 prendas con mas ventas

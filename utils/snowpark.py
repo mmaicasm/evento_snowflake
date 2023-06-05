@@ -11,7 +11,7 @@ user_connection_parameters = {
   "account": st.secrets["snowflake_account"],
   #"user": st.secrets["snowflake_user"],
   #"password": st.secrets["snowflake_password"],
-  "role": "EVENTO_SNOWFLAKE_READ",
+  #"role": "EVENTO_SNOWFLAKE_READ",
   "warehouse": "COMPUTE_WH"
 }
 guest_connection_parameters = {
